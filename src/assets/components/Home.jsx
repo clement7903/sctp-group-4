@@ -4,7 +4,7 @@ function Home({ isLoggedIn, handleLogin, handleLogout }) {
     return (
         <div>
             <NavbarComponent />
-            <h2>Welcome home!</h2>
+            <h2>Welcome home!!</h2>
 
             {isLoggedIn ? (
                 <>
