@@ -19,7 +19,7 @@ function BusComponent() {
 
     return (
         <>
-            <p>This is bus component</p>
+            <h2>This is bus component</h2>
             {!isDisplaying && <button onClick={fetchBusArrivalData}>Load bus data</button>}
         </>
     )
