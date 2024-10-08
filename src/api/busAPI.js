@@ -9,7 +9,8 @@ const BUS_FORECAST_URL = 'https://cors-anywhere.herokuapp.com/https://datamall2.
 const BusForecastAPI = axios.create({
     baseURL: BUS_FORECAST_URL,
     headers: {
-        'AccountKey': apiKey,
+        AccountKey: apiKey,
+        accept: 'application/json'
     }
 });
 
