@@ -1,11 +1,14 @@
-import axios from 'axios';
 import { useState } from 'react';
 import { BusForecastAPI } from '../../api/busAPI';
 
 const fetchBusArrivalData = async () => {
     try {
-        const response = await BusForecastAPI.get('/');
-        console.log('This is resons', response)
+        const response = await BusForecastAPI.get('');
+        if (response.status === 200) {
+            console.log('This is response', response)
+            console.log('This is response', response.data.Services)
+        }
+
     } catch (error) {
         console.log(error.message);
     }
@@ -17,7 +20,7 @@ function BusComponent() {
     return (
         <>
             <p>This is bus component</p>
-            {!isDisplaying && <button onClick={fetchBusArrivalData}>Load weather data</button>}
+            {!isDisplaying && <button onClick={fetchBusArrivalData}>Load bus data</button>}
         </>
     )
 }
