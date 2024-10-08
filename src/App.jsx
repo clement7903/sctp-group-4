@@ -5,6 +5,7 @@ import NavbarComponent from './assets/components/NavbarComponent'
 import DefaultComponent from './assets/components/DefaultComponent'
 import Home from './assets/components/Home'
 import WeatherComponent from './assets/components/WeatherComponent'
+import BusComponent from './assets/components/BusComponent'
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -23,6 +24,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Home isLoggedIn={isLoggedIn} handleLogin={handleLogin} handleLogout={handleLogout}></Home>}></Route>
           <Route path='weather' element={<WeatherComponent></WeatherComponent>}></Route>
+          <Route path='bus' element={<BusComponent></BusComponent>}></Route>
 
           {/* Default page when no route is matched */}
           <Route path='*' element={<DefaultComponent></DefaultComponent>}></Route>

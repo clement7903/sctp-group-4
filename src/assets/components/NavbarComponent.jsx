@@ -11,6 +11,7 @@ export default function NavbarComponent({
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
                 <Link to="/" className={styles.navbarItems}> <House></House> Home</Link>
                 <Link to="weather" className={styles.navbarItems}> <Sun></Sun> Weather</Link>
+                <Link to="bus" className={styles.navbarItems}> <BusFront></BusFront> Bus</Link>
             </nav>
             <Outlet></Outlet>
         </>

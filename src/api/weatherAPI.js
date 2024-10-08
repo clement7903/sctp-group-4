@@ -11,7 +11,7 @@ const WeatherForecastAPI = axios.create({
 
 const PM_25_URL = 'https://api.data.gov.sg/v1/environment/pm25'
 const PM25API = axios.create({
-    baseURL: TWENTY_FOUR_HOUR_FORECAST_URL,
+    baseURL: PM_25_URL,
     timeout: 3000,
 });
 
