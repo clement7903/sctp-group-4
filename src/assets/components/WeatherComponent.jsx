@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { v4 as uuid } from 'uuid';
-import { WeatherForecastAPI } from '../../api/weatherAPI'
+import { PM25API, WeatherForecastAPI } from '../../api/weatherAPI'
 import { useNavigate } from 'react-router-dom';
 
 const weatherDescriptions = {
@@ -31,12 +31,13 @@ const weatherDescriptions = {
 
 function WeatherComponent() {
     const [weatherData, setWeatherData] = useState([]);
+    const [pm25, setPm25] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [isDisplaying, setIsDisplaying] = useState(false);
 
     const navigate = useNavigate();
 
-    async function apiGetAsync() {
+    async function getWeatherInformation() {
         try {
             const response = await WeatherForecastAPI.get('/');
             if (response.status === 200) {
@@ -50,8 +51,20 @@ function WeatherComponent() {
         }
     }
 
+    async function getPM25Information() {
+        try {
+            const response = await PM25API.get('/');
+            if (response.status === 200) {
+                console.log(response.data.items[0].readings.pm25_one_hourly);
+                setPm25(response.data.items[0].readings.pm25_one_hourly);
+            }
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
+
     // useEffect(() => {
-    //   apiGetAsync();
+    //   getWeatherInformation();
     // }, [])
 
     function handleBackToHome() {
@@ -62,8 +75,21 @@ function WeatherComponent() {
         <div className="App">
             <div className="content-container">
                 <h2>24-hour Weather</h2>
-                {!isDisplaying && <button onClick={apiGetAsync}>Load weather data</button>}
+                {!isDisplaying && <button onClick={getWeatherInformation}>Load weather data</button>}
                 {isDisplaying && <button onClick={handleBackToHome}>Back to home</button>}
+                <button onClick={getPM25Information}>Load PM 2.5</button>
+                <h3>Region Data</h3>
+                {pm25 ? (
+                    <ul>
+                        {Object.entries(pm25).map(([region, value]) => (
+                            <li key={region}>
+                                {region.charAt(0).toUpperCase() + region.slice(1)}: {value}
+                            </li>
+                        ))}
+                    </ul>
+                ) : (
+                    <p>Loading...</p>
+                )}
                 {isLoading ? <p>^ Click on load weather data ^</p> : (
                     <>
                         <table>
