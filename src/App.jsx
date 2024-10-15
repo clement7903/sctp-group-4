@@ -1,37 +1,27 @@
-import { useState } from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import './App.css'
-import NavbarComponent from './assets/components/NavbarComponent'
-import DefaultComponent from './assets/components/DefaultComponent'
-import Home from './assets/components/Home'
-import WeatherComponent from './assets/components/WeatherComponent'
-import BusComponent from './assets/components/BusComponent'
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import './App.css';
+import DefaultComponent from './assets/components/DefaultComponent';
+import Home from './assets/components/Home';
+import WeatherComponent from './assets/components/WeatherComponent';
+import BusComponent from './assets/components/BusComponent';
+import { AuthContextProvider } from './assets/components/AuthContextProvider';
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  const handleLogin = () => {
-    setIsLoggedIn(true);
-  }
-
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-  }
-
   return (
-    <>
+    <AuthContextProvider>
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={<Home isLoggedIn={isLoggedIn} handleLogin={handleLogin} handleLogout={handleLogout}></Home>}></Route>
-          <Route path='weather' element={<WeatherComponent></WeatherComponent>}></Route>
-          <Route path='bus' element={<BusComponent></BusComponent>}></Route>
+          {/* Pass the auth context as props to Home */}
+          <Route path='/' element={<Home />} />
+          <Route path='weather' element={<WeatherComponent />} />
+          <Route path='bus' element={<BusComponent />} />
 
           {/* Default page when no route is matched */}
-          <Route path='*' element={<DefaultComponent></DefaultComponent>}></Route>
+          <Route path='*' element={<DefaultComponent />} />
         </Routes>
       </BrowserRouter>
-    </>
-  )
+    </AuthContextProvider>
+  );
 }
 
 export default App;
