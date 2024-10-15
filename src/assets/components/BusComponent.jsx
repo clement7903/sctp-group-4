@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { BusForecastAPI, BusStopsAPI } from '../../api/busAPI';
-import dayjs from 'dayjs';
+import BusCardList from '../containers/BusCardList';
 
 /*
 Gets all the bus arrival timings using Bus Stop Code inputted by User
@@ -35,16 +35,6 @@ const fetchBusStopCodes = async (setBusStopCodes) => {
         console.log(error.message);
     }
 }
-
-/*
-Helper function to calculate the arrival time for each bus
-*/
-const calculateMinutesTillArrival = (arrivalTime) => {
-    const now = dayjs();
-    const estimatedArrival = dayjs(arrivalTime);
-    const minutesTillArrival = estimatedArrival.diff(now, 'minute'); // Calculate difference in minutes
-    return minutesTillArrival >= 0 ? minutesTillArrival : 'Arrived';
-};
 
 function BusComponent() {
     const [isDisplaying, setIsDisplaying] = useState(false);
@@ -89,11 +79,7 @@ function BusComponent() {
                     {busData ? (
                         <ul>
                             {/* TODO: change the following code to a custom "card" / component */}
-                            {busData.map((service, index) => (
-                                <li key={index}>
-                                    Bus {service.ServiceNo}: {calculateMinutesTillArrival(service.NextBus.EstimatedArrival)} minutes till arrival
-                                </li>
-                            ))}
+                            <BusCardList services={busData}></BusCardList>
                         </ul>
                     ) : (
                         <p>Loading...</p>
