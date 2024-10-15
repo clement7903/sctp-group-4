@@ -2,6 +2,10 @@ import { useEffect, useState } from 'react';
 import { BusForecastAPI, BusStopsAPI } from '../../api/busAPI';
 import dayjs from 'dayjs';
 
+
+/*
+Gets all the bus arrival timings using Bus Stop Code inputted by User
+ */
 const fetchBusArrivalData = async (busstopcode, setBusData) => {
     try {
         const response = await BusForecastAPI.get(`BusArrival?BusStopCode=${busstopcode}`);
@@ -14,18 +18,27 @@ const fetchBusArrivalData = async (busstopcode, setBusData) => {
     }
 };
 
+/*
+Fetches all the bus stop codes to populate dropdown selection for User to choose
+*/
 const fetchBusStopCodes = async (setBusStopCodes) => {
     try {
         const response = await BusStopsAPI.get('BusStops');
         if (response.status === 200) {
-            console.log('Response data:', response.data.value);
-            setBusStopCodes(response.data.value);  // Store bus stop codes in state
+            const busStopCodesArray = response.data.value.reduce((acc, busStopObject) => {
+                acc.push(busStopObject.BusStopCode);
+                return acc;
+            }, []);
+            setBusStopCodes(busStopCodesArray);  // Store bus stop codes in array state
         }
     } catch (error) {
         console.log(error.message);
     }
 }
 
+/*
+Helper function to calculate the arrival time for each bus
+*/
 const calculateMinutesTillArrival = (arrivalTime) => {
     const now = dayjs();
     const estimatedArrival = dayjs(arrivalTime);
@@ -37,7 +50,7 @@ function BusComponent() {
     const [isDisplaying, setIsDisplaying] = useState(false);
     const [busData, setBusData] = useState(null);  // State to store bus data
     const [busStopCode, setBusStopCode] = useState('');  // State for bus stop code input
-    const [busStopCodes, setBusStopCodes] = useState([]);  // State to store bus stop codes
+    const [busStopCodes, setBusStopCodes] = useState([]);  // An Array State to store only bus stop codes
 
     useEffect(() => {
         fetchBusStopCodes(setBusStopCodes);
@@ -64,22 +77,13 @@ function BusComponent() {
                         onChange={(e) => setBusStopCode(e.target.value)}  // Update bus stop code
                     />
                     <button onClick={handleClick}>Load bus data</button>
-
-                    {/* Displaying bus stop codes */}
-                    {/* <h3>Available Bus Stops</h3>
-                    <ul>
-                        {busStopCodes.map((busStop, index) => (
-                            <li key={index}>
-                                {busStop.BusStopCode}: {busStop.Description}
-                            </li>
-                        ))}
-                    </ul> */}
                 </>
             ) : (
                 <>
                     <h3>Bus Arrival Data for Stop: {busStopCode}</h3>
                     {busData ? (
                         <ul>
+                            {/* TODO: change the following code to a custom "card" / component */}
                             {busData.map((service, index) => (
                                 <li key={index}>
                                     Bus {service.ServiceNo}: {calculateMinutesTillArrival(service.NextBus.EstimatedArrival)} minutes till arrival
