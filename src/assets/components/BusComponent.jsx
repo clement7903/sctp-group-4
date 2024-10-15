@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { BusForecastAPI, BusStopsAPI } from '../../api/busAPI';
 import dayjs from 'dayjs';
 
-
 /*
 Gets all the bus arrival timings using Bus Stop Code inputted by User
  */
@@ -26,7 +25,8 @@ const fetchBusStopCodes = async (setBusStopCodes) => {
         const response = await BusStopsAPI.get('BusStops');
         if (response.status === 200) {
             const busStopCodesArray = response.data.value.reduce((acc, busStopObject) => {
-                acc.push(busStopObject.BusStopCode);
+                console.log('This is the object', busStopObject)
+                acc.push(busStopObject);
                 return acc;
             }, []);
             setBusStopCodes(busStopCodesArray);  // Store bus stop codes in array state
@@ -61,7 +61,7 @@ function BusComponent() {
             fetchBusArrivalData(busStopCode, setBusData);
             setIsDisplaying(true);
         } else {
-            alert('Please enter a valid bus stop code.');
+            alert('Please select a bus stop code.');
         }
     };
 
@@ -70,12 +70,17 @@ function BusComponent() {
             <h2>This is the Bus component</h2>
             {!isDisplaying ? (
                 <>
-                    <input
-                        type="text"
-                        placeholder="Bus Stop Code e.g. 83139"
+                    <select
                         value={busStopCode}
-                        onChange={(e) => setBusStopCode(e.target.value)}  // Update bus stop code
-                    />
+                        onChange={(e) => setBusStopCode(e.target.value)}  // Update bus stop code from dropdown
+                    >
+                        <option value="">Select a bus stop code</option>
+                        {busStopCodes.map((busStopObject, index) => (
+                            <option key={index} value={busStopObject.BusStopCode}>
+                                {busStopObject.Description + " along " + busStopObject.RoadName}
+                            </option>
+                        ))}
+                    </select>
                     <button onClick={handleClick}>Load bus data</button>
                 </>
             ) : (
