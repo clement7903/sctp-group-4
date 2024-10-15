@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { BusForecastAPI, BusStopsAPI } from '../../api/busAPI';
 import BusCardList from '../containers/BusCardList';
+import { useNavigate } from 'react-router-dom';
 
 /*
 Gets all the bus arrival timings using Bus Stop Code inputted by User
@@ -42,6 +43,8 @@ function BusComponent() {
     const [busStopCode, setBusStopCode] = useState('');  // State for bus stop code input
     const [busStopCodes, setBusStopCodes] = useState([]);  // An Array State to store only bus stop codes
 
+    const navigate = useNavigate();
+
     useEffect(() => {
         fetchBusStopCodes(setBusStopCodes);
     }, []);
@@ -55,9 +58,14 @@ function BusComponent() {
         }
     };
 
+    function handleBackToHome() {
+        navigate('/');
+    }
+
     return (
         <>
             <h2>This is the Bus component</h2>
+            {isDisplaying && <button onClick={handleBackToHome}>Back to home</button>}
             {!isDisplaying ? (
                 <>
                     <select
