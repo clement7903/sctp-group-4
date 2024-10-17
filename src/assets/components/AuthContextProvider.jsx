@@ -1,23 +1,66 @@
-import { useState, createContext } from 'react';
+import { useState, createContext } from "react";
+import PropTypes from "prop-types";
 
-export const AuthContext = createContext()
+export const AuthContext = createContext();
 
 // Create the context provider component to manage states
 export function AuthContextProvider({ children }) {
+  const [credentials, setCredentials] = useState({
+    username: "",
+    password: "",
+  });
 
-    // Define states to manage in our context
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-    // Define handler methods if needed
-    const loginHandler = () => setIsLoggedIn(true);
-    const logoutHandler = () => setIsLoggedIn(false);
+  const handleCredentialsChange = (event) => {
+    setCredentials((prevCredentials) => {
+      const newCredentials = {
+        ...prevCredentials,
+        [event.target.name]: event.target.value,
+      };
+      return newCredentials;
+    });
+  };
 
-    // Context object to be passed to the provider
-    const context = {
-        isLoggedIn: isLoggedIn,
-        loginHandler: loginHandler,
-        logoutHandler: logoutHandler
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+  };
+
+  const handleLogin = (event) => {
+    event.preventDefault();
+
+    if (!credentials.username || !credentials.password) {
+      alert("Please provide both username and password.");
+      return;
     }
 
-    return <AuthContext.Provider value={context}>{children}</AuthContext.Provider>
+    if (credentials.username === "admin" && credentials.password === "admin") {
+      alert(`✅ Logged in with username: ${credentials.username} and password: ${credentials.password}`);
+
+      setCredentials({
+        username: "",
+        password: "",
+      });
+
+      setIsLoggedIn(true);
+    } else {
+      alert("❌ Invalid credentials");
+    }
+  };
+
+  const context = {
+    credentials,
+    handleCredentialsChange,
+    handleLogin,
+    handleLogout,
+    isLoggedIn,
+  };
+  return (
+    <AuthContext.Provider value={context}>{children}</AuthContext.Provider>
+  );
 }
+
+AuthContextProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+};
+
