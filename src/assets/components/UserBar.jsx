@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { AuthContext } from "./AuthContextProvider";
+import styles from './UserBar.module.css'; 
 
 function UserBar() {
   const UserBarCtx = useContext(AuthContext);
@@ -8,29 +9,29 @@ function UserBar() {
   if (isLoggedIn) {
     return (
       <div>
-        <h3>Welcome!</h3>
-        <button onClick={handleLogout}>Logout</button>
+        <h3>Welcome back {credentials.username}</h3>
+        <button className={styles.btn} onClick={handleLogout}>Logout</button>
       </div>
     );
   }
   
   return (
     <div>
-      <form onSubmit={handleLogin}>
-        <label htmlFor="username">username</label>
+      <form className={styles.form} onSubmit={handleLogin}>
+        <label htmlFor="username">username </label>
         <input
           name="username"
           value={credentials.username}
           onChange={handleCredentialsChange}
         />
-        <label>password</label>
+        <label> password</label>
         <input
           name="password"
           value={credentials.password}
           onChange={handleCredentialsChange}
           type="password"
         />
-        <button type="submit">Login</button>
+        <button className={styles.btn} type="submit"> Login</button>
       </form>
     </div>
   );

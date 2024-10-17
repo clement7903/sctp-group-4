@@ -5,13 +5,15 @@ import UserBar from "./UserBar";
 
 function Home() {
   return (
+    <header>
+      <h1>Welcome</h1>
       <div>
         <AuthContextProvider>
         <NavbarComponent />
         <UserBar />
         </AuthContextProvider>
       </div>
-
+      </header>
   );
 }
 

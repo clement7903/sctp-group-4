@@ -26,7 +26,7 @@ export default function NavbarComponent() {
             </Link>
           </>
         ) : (
-          <p>Please log in.</p>
+          <></>
         )}
       </nav>
       <Outlet></Outlet>
