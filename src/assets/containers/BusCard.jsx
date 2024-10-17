@@ -3,7 +3,7 @@ This is a component for displaying all the bus arrival timings for a bus stop. I
 */
 
 import dayjs from 'dayjs';
-
+import './BusCard.css'
 /*
 Helper function to calculate the arrival time for each bus
 */
@@ -29,16 +29,21 @@ const returnOperatorLogoLink = (operator) => {
 
 
 function BusCard({ service }) {
-    console.log('Service:', service);
     return (
         <div className="card">
-            <img src= {returnOperatorLogoLink(service.Operator)}
-            style={{ height: '100px', width: '100px', objectFit: 'cover', borderRadius: '50%' }} 
-            className="card-img-top" alt={service.Operator}/>
-                <div className="card-body">
-                    <h5 className="card-title">Bus {service.ServiceNo}</h5>
-                    <p className="card-text">Arriving in {calculateMinutesTillArrival(service.NextBus.EstimatedArrival)} mins</p>
-                </div>
+            <img src={returnOperatorLogoLink(service.Operator)}
+                className="card-img-top" alt={service.Operator} />
+            <div className="card-body">
+                <table className="card-table">
+                    <tbody>
+                        <tr>
+                            <td className="card-title">Bus {service.ServiceNo}</td>
+                            <td className="card-text">Operator: {service.Operator}</td>
+                            <td className="card-text">Arriving in {calculateMinutesTillArrival(service.NextBus.EstimatedArrival)} mins</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 }
