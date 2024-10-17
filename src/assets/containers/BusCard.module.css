@@ -1,0 +1,50 @@
+/* BusCard.module.css */
+
+/* Styling for the main card container */
+.card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    margin: 10px;
+    background-color: #fff;
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  /* Add hover effect for the card */
+  .card:hover {
+    transform: scale(1.3);
+  }
+  
+  /* Styling for the top image of the card */
+  .cardImgTop {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    width: 50%;
+    height: 80px;
+    object-fit: cover;
+  }
+  
+  /* Styling for the card body */
+  .cardBody {
+    padding: 15px;
+    text-align: center;
+  }
+  
+  /* Styling for the card title */
+  .cardTitle {
+    font-size: 25px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  /* Styling for the card text (arrival information) */
+  .cardText {
+    font-size: 20px;
+    font-weight: bold;
+    color: #5410f3;
+    margin-bottom: 5px;
+  }
+  
+ 
